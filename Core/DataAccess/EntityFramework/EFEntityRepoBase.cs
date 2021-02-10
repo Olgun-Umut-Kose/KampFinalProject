@@ -3,8 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
+
 
 namespace Core.DataAccess.EntityFramework
 {
@@ -30,7 +29,7 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> filter)
+        public TEntity Get(Func<TEntity, bool> filter)
         {
             using (TContext context = new TContext())
             {
@@ -38,7 +37,7 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
+        public List<TEntity> GetAll(Func<TEntity, bool> filter = null)
         {
             using (TContext context = new TContext())
             {

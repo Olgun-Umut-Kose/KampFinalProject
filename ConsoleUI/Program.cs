@@ -4,6 +4,7 @@ using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.Concrete.DTOs;
 using System;
+using Core.Utilities.Results;
 
 namespace ConsoleUI
 {
@@ -17,9 +18,18 @@ namespace ConsoleUI
 
             ProductManager productManager = new ProductManager(new EFProductDal());
 
-            foreach (ProductDetailDto productDetail in productManager.GetProductDetails())
+            var result = productManager.GetProductDetails();
+
+            if (result.Success)
             {
-                Console.WriteLine(productDetail.ProductName + "/" + productDetail.CategoryName);
+                foreach (ProductDetailDto productDetail in result.Data)
+                {
+                    Console.WriteLine(productDetail.ProductName + "/" + productDetail.CategoryName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
             }
 
         }
@@ -38,11 +48,20 @@ namespace ConsoleUI
         {
             ProductManager productManager = new ProductManager(new EFProductDal());
 
-
-            foreach (Product p in productManager.GetByUnitPrice(40, 100))
+            var result = productManager.GetByUnitPrice(40, 100);
+            
+            if (result.Success)
             {
-                Console.WriteLine(p.ProductName);
+                foreach (Product p in result.Data)
+                {
+                    Console.WriteLine(p.ProductName);
+                }
             }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+            
         }
     }
 }
