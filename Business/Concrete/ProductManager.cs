@@ -32,6 +32,12 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
         }
 
+        public IDataResult<Product> GetById(int id)
+        {
+            Product result = _productDal.Get(p => p.ProductId == id);
+            return new SuccessDataResult<Product>(Messages.ProductListed, result);
+        }
+
         public IDataResult<List<Product>> GetAll()
         {
             if (DateTime.Now.Hour == 22)

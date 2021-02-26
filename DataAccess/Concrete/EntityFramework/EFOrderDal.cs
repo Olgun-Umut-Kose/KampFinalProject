@@ -9,5 +9,6 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EFOrderDal : EFEntityRepoBase<Order, NorthwindContext>,IOrderDal
     {
+        
     }
 }

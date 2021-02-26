@@ -16,6 +16,12 @@ namespace ConsoleUI
 
             //Category();
 
+            //ProductDetail();
+            
+        }
+
+        private static void ProductDetail()
+        {
             ProductManager productManager = new ProductManager(new EFProductDal());
 
             var result = productManager.GetProductDetails();
@@ -31,7 +37,6 @@ namespace ConsoleUI
             {
                 Console.WriteLine(result.Message);
             }
-
         }
 
         private static void Category()
@@ -63,5 +68,9 @@ namespace ConsoleUI
             }
             
         }
+        
     }
+
+        
+    
 }
