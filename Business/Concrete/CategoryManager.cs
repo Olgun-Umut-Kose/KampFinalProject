@@ -4,6 +4,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Utilities.Results;
 
 namespace Business.Concrete
 {
@@ -16,14 +17,14 @@ namespace Business.Concrete
             _dal = dal;
         }
 
-        public List<Category> GetAll()
+        public IDataResult<List<Category>> GetAll(Func<Category,bool> filter = null)
         {
-            return _dal.GetAll();
+            return new SuccessDataResult<List<Category>>(_dal.GetAll(filter));
         }
 
-        public Category GetById(int categoryId)
+        public IDataResult<Category> GetById(int categoryId)
         {
-            return _dal.Get(c => c.CategoryId == categoryId);
+            return new SuccessDataResult<Category>(_dal.Get(c => c.CategoryId == categoryId));
         }
     }
 }

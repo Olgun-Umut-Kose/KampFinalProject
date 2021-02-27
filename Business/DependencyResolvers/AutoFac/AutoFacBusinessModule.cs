@@ -7,6 +7,7 @@ using Castle.DynamicProxy;
 using Core.Utilities.Interception;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using Entities.Concrete;
 using Module = Autofac.Module;
 using RegistrationExtensions = Autofac.RegistrationExtensions;
 
@@ -18,6 +19,8 @@ namespace Business.DependencyResolvers.AutoFac
         {
             builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
             builder.RegisterType<EFProductDal>().As<IProductDal>().SingleInstance();
+            builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
+            builder.RegisterType<EFCategoryDal>().As<ICustomerDal>().SingleInstance();
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             
