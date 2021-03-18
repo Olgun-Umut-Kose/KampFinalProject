@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Business.BusinessAspects.AutoFac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.AutoFac.Validation;
@@ -31,16 +32,17 @@ namespace Business.Concrete
             _productDal = productDal;
             _categoryService = categoryService;
         }
-
+        
+        [SecuredOperation("product.add", "admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-            IResult result = BusinessRules.Run(CheckCategoryCount(product), CheckProductName(product), CheckCategoryLimit(product));
+            IResult result = BusinessRules.Run(CheckProductName(product));
 
             if (result != null) return result;
 
             _productDal.Add(product);
-
+ 
             return new SuccessResult(Messages.ProductAdded);
         }
 
@@ -105,7 +107,7 @@ namespace Business.Concrete
         
         private IResult CheckCategoryLimit(Product product)
         {
-            if (_categoryService.GetAll(p => p.CategoryId == product.CategoryId).Data.Count >15)
+            if (_categoryService.GetAll().Data.Count >= 15)
             {
                 return new ErrorResult(Messages.CategoryLimitError);
             }

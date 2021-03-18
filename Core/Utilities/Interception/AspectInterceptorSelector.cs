@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
 
+
 namespace Core.Utilities.Interception
 {
     public class AspectInterceptorSelector : IInterceptorSelector
@@ -17,6 +18,9 @@ namespace Core.Utilities.Interception
 
            // ReSharper disable once CoVariantArrayConversion
            return classAttributes.OrderByDescending(x => x.Priority).ToArray();
+           
+           
+               
         }
     }
 }
