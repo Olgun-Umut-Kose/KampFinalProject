@@ -41,7 +41,7 @@ namespace Business.Concrete
         {
             User userToCheck = _userService.GetByMail(loginDto.Email).Data;
             IResult result = UserExists(loginDto.Email);
-            if (!result.Success)
+            if (result.Success)
             {
                 return new ErrorDataResult<User>(Messages.UserNotExist);
             }
@@ -57,12 +57,13 @@ namespace Business.Concrete
 
         public IResult UserExists(string email)
         {
-            if (_userService.GetByMail(email).Data !=null)
+            if (_userService.GetByMail(email).Data ==null)
             {
-                return new SuccessResult(Messages.UserExist);
+                return new SuccessResult();
             }
-
-            return new ErrorResult();
+            return new ErrorResult(Messages.UserExist); 
+            
+            
         }
 
         public IDataResult<AccessToken> CreateAccessToken(User user)

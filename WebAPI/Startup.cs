@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Concrete;
+using Core.DependencyResolvers;
+using Core.Utilities.Extensions;
 using Core.Utilities.IoC;
-using Core.Utilities.Security.Encription;
+using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -56,8 +58,7 @@ namespace WebAPI
                     };
                 });
 
-            services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
-            ServiceTool.Create(services);
+            services.AddDependencyResolvers(new CoreModule());
             //AutoFac, Ninject, CastleWindsor, StructureMap, LighInject, DryInject --> IoC Container
             // services.AddSingleton<IProductService, ProductManager>();
             // services.AddSingleton<IProductDal, EFProductDal>();
