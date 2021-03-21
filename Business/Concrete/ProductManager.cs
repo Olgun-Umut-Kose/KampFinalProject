@@ -12,6 +12,7 @@ using System.Text;
 using Business.BusinessAspects.AutoFac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.AutoFac.Caching;
 using Core.Aspects.AutoFac.Validation;
 using Core.Cross_Cutting_Concerns.Validation;
 using Core.Utilities.Business;
@@ -35,6 +36,7 @@ namespace Business.Concrete
         
         [SecuredOperation("product.add", "admin")]
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(CheckProductName(product));
@@ -45,14 +47,15 @@ namespace Business.Concrete
  
             return new SuccessResult(Messages.ProductAdded);
         }
-
-
+        
+        [CacheAspect()]
         public IDataResult<Product> GetById(int id)
         {
             Product result = _productDal.Get(p => p.ProductId == id);
             return new SuccessDataResult<Product>(Messages.ProductListed, result);
         }
-
+        
+        [CacheAspect()]
         public IDataResult<List<Product>> GetAll()
         {
             if (DateTime.Now.Hour == 9)
